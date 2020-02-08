@@ -15,10 +15,15 @@ a cloud parser with cloud server environment setup (Ali-Cloud)
 > wget 'https://www.python.org/ftp/python/3.7.3/Python-3.7.3.tgz'
 
 > tar zxvf Python-3.7.3.tgz
+
 > cd Python-3.7.3/
+
 > sudo mkdir -p /usr/local/python3
+
 > ./configure --prefix=/usr/local/python3 --enable-optimizations
+
 > make
+
 > sudo make install
 
 此时 Python 3.7.3已经安装完毕，接着就是处理原来的softlink和pip3的链接 
