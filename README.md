@@ -29,8 +29,10 @@ a cloud parser with cloud server environment setup (Ali-Cloud)
 此时 Python 3.7.3已经安装完毕，接着就是处理原来的softlink和pip3的链接 
 
 > sudo rm -rf /usr/bin/python3
+
 > sudo rm -rf /usr/bin/pip3 (这一条未必需要，因为默认系统可能没有pip3）
 
 > sudo ln -s /usr/local/python3/bin/python3.7 /usr/bin/python3
+
 > sudo ln -s /usr/local/python3/bin/pip3.7 /usr/bin/pip3
 
