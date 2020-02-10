@@ -26,11 +26,11 @@ a cloud parser with cloud server environment setup (Ali-Cloud)
 
 > sudo make install
 
-此时 Python 3.7.3已经安装完毕，接着就是处理原来的softlink和pip3的链接 
+此时 Python 3.7.3已经安装完毕, 接着就是处理原来的softlink和pip3的链接 
 
 > sudo rm -rf /usr/bin/python3
 
-> sudo rm -rf /usr/bin/pip3 (这一条未必需要，因为默认系统可能没有pip3）
+> sudo rm -rf /usr/bin/pip3 (这一条未必需要,因为默认系统可能没有pip3)
 
 > sudo ln -s /usr/local/python3/bin/python3.7 /usr/bin/python3
 
@@ -46,3 +46,10 @@ a cloud parser with cloud server environment setup (Ali-Cloud)
 
 > git --version
 
+# Step 4 ---- 安装需要的package
+
+> pip3 install requests
+
+(如果安装失败,并看见lsb_release的错误,这是Ubuntu系统的错误.两种解决方案,1) `sudo mv /usr/bin/lsb_release /usr/bin/lsb_release_back`; 2) `sudo rm /usr/bin/lsb_release`)
+
+> pip3 install beautifulsoup4
