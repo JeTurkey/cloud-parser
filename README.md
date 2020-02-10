@@ -36,3 +36,13 @@ a cloud parser with cloud server environment setup (Ali-Cloud)
 
 > sudo ln -s /usr/local/python3/bin/pip3.7 /usr/bin/pip3
 
+# Step 3 ---- 在云端安装Git package
+
+> apt-get update
+
+> sudo apt install git-core
+
+接着可以confirm git的版本来确定是否安装完成 
+
+> git --version
+
