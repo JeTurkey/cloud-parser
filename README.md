@@ -53,3 +53,17 @@ a cloud parser with cloud server environment setup (Ali-Cloud)
 (如果安装失败,并看见lsb_release的错误,这是Ubuntu系统的错误.两种解决方案,1) `sudo mv /usr/bin/lsb_release /usr/bin/lsb_release_back`; 2) `sudo rm /usr/bin/lsb_release`)
 
 > pip3 install beautifulsoup4
+
+# Step 5 ---- 安装Screen
+
+> sudo apt install screen
+
+## Screen的操作指南
+
+`screen` initiate a instance of screen session
+
+`ctrl + A + D` detach current session
+
+`screen -l` to check current session
+
+`screen -r` to resume a session
