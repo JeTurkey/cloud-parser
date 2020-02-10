@@ -38,20 +38,22 @@ print('储存文件名为 ccgp_levelOne', filename, '.txt')
 
 # 输出口模块
 def output(string, filename):
-    openfile = open('/home/admin/cloud-parser/levelOneResult/ccgp_ref' + filename + '.txt', 'a+')
+    openfile = open('/Users/rayshi/Desktop/cloud-parser/levelOneResult/ccgp_ref' + filename + '.txt', 'a+')
+    # openfile = open('/home/admin/cloud-parser/levelOneResult/ccgp_ref' + filename + '.txt', 'a+')
     openfile.write(str(string) + '\n')
     openfile.close()
 
 # 暂停模块
 def randomBreak():
-    randomTime = random.randint(120, 180)
+    randomTime = random.randint(120, 300)
     print('即将休眠 ', randomTime, ' 秒')
     time.sleep(randomTime)
 
 # 需要模块获得page总数
 
 # request website
-page_index = input('请输入开始页数')
+page_index = int(input('请输入开始页数'))
+
 r = requests.get('http://search.ccgp.gov.cn/bxsearch?searchtype=1&page_index=' + str(page_index) + '&bidSort=0&buyerName=&projectId=&pinMu=0&bidType=7&dbselect=bidx&kw=&start_time=' + str(startYear) + '%3A' + str(startMonth) + '%3A' + str(startDay) + '&end_time=' + str(endYear) + '%3A' + str(endMonth) + '%3A' + str(endDay) + '&timeType=6&displayZone=&zoneId=&pppStatus=0&agentName=')
 # render page data
 soup = BeautifulSoup(r.content)
@@ -64,7 +66,7 @@ pageCount = int(temp[init: init+temp[init:].index(',')])
 print(startYear,' 年 ', startMonth,' 月 ', startDay, ' 日至 ', endYear, ' 年 ', endMonth, ' 月 ', endDay, ' 日共有 ', entryCount, ' 条记录，共有 ', pageCount, ' 页结果')
 
 
-while page_index <= pageCount:
+while int(page_index) <= pageCount:
     # 提醒部分
     print('当前页面 ', page_index)
     bid_result = soup.find('ul', {'class': 'vT-srch-result-list-bid'})
