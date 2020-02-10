@@ -38,7 +38,7 @@ print('储存文件名为 ccgp_levelOne', filename, '.txt')
 
 # 输出口模块
 def output(string, filename):
-    openfile = open(os.path.dirname('levelOneResult') + '../levelOneResult/ccgp_ref' + filename + '.txt', 'a+')
+    openfile = open('/home/admin/cloud-parser/levelOneResult/ccgp_ref' + filename + '.txt', 'a+')
     openfile.write(str(string) + '\n')
     openfile.close()
 
