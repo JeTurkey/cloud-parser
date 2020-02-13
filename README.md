@@ -64,6 +64,8 @@ a cloud parser with cloud server environment setup (Ali-Cloud)
 
 `ctrl + A + D` detach current session
 
-`screen -l` to check current session
+`screen -ls` to check current session
 
 `screen -r` to resume a session
+
+`screen -X -S session_number quit` to terminate session
