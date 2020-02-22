@@ -26,7 +26,7 @@ def outputCleaned(string, systemType, date):
 
 # 暂停模块
 def randomBreak():
-    randomTime = random.randint(120, 180)
+    randomTime = random.randint(180, 300)
     print('即将休眠 ', randomTime, ' 秒')
     time.sleep(randomTime)
 
