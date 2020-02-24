@@ -138,7 +138,7 @@ while int(page_index) <= pageCount:
     # page_index 递增
     page_index += 1
     # 最终页终止条件
-    if page_index > pageCount:
+    if page_index >= pageCount:
         print('已完成全部采集 终止')
         break
     # 读取新的一页
