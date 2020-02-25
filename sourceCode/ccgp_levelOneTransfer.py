@@ -14,6 +14,7 @@ collection = db.governmentcontracts
 
 filename = input('Please enter your file date (Format: YYYYMMDD): ')
 openfile = open('/home/admin/levelOneResult/ccgp_ref' + filename + '.txt', 'r')
+# openfile = open('/Users/rayshi/Desktop/cloud-parser/levelOneResult/ccgp_ref' + filename + '.txt', 'r')
 
 for line in openfile.readlines():
     title, date, subject, intermediate, location, purchaseInfo, url = line.split(' | ')
