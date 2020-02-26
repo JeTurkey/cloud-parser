@@ -53,7 +53,7 @@ def randomBreak():
 # 需要模块获得page总数
 
 # request website
-page_index = input('Please enter the starting page index')
+page_index = int(input('Please enter the starting page index: '))
 print()
 r = requests.get('http://search.ccgp.gov.cn/bxsearch?searchtype=1&page_index=' + str(page_index) + '&bidSort=0&buyerName=&projectId=&pinMu=0&bidType=7&dbselect=bidx&kw=&start_time=' + str(startYear) + '%3A' + str(startMonth) + '%3A' + str(startDay) + '&end_time=' + str(endYear) + '%3A' + str(endMonth) + '%3A' + str(endDay) + '&timeType=6&displayZone=&zoneId=&pppStatus=0&agentName=')
 # render page data
