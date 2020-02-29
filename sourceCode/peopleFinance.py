@@ -1,8 +1,5 @@
-import pymongo
 import requests
 from bs4 import BeautifulSoup
-import pprint
-from pymongo import MongoClient
 import sys
 import random, time
 
