@@ -43,21 +43,21 @@ def parsingContent(link, rizi, huanjing):
     content = ''
 
     try:
-        title = s.find('div', {'class': 'clearfix w1000_320 text_title'}).find('h1').text
+        title = s.find('div', {'class': 'clearfix w1000_320 text_title'}).find('h1').text.replace('\n', '')
     except:
         print('title extraction error')
 
     try:
         temp_text = s.find('div', {'class': 'box01'}).find('div', {'class': 'fl'}).text.replace('\xa0', ' ')
-        date = temp_text[:temp_text.index(' ')]
-        source = temp_text[temp_text.index(' '):].replace(' ', '')
+        date = temp_text[:temp_text.index(' ')].replace('\n', '')
+        source = temp_text[temp_text.index(' '):].replace(' ', '').replace('\n', '')
     except:
         print('date and source extraction error')
 
     try:
         contentList = s.find('div', {'id': 'rwb_zw'}).findAll('p')
         for p in contentList:
-            content += str(p)
+            content += str(p).replace('\n', '')
     except:
         print('content Extraction error')
 
