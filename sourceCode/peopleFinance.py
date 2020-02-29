@@ -57,7 +57,7 @@ def parsingContent(link, rizi, huanjing):
     try:
         contentList = s.find('div', {'id': 'rwb_zw'}).findAll('p')
         for p in contentList:
-            content += p
+            content += str(p)
     except:
         print('content Extraction error')
 
@@ -77,7 +77,7 @@ status = True
 dateOfDay = input('Please enter the date of today in YYYYMMDD: ')
 systemEnv = input('Please enter your running environment Mac or Ubuntu [1/2]: ')
 urlParsed = []
-
+totalRound = 0
 while status:
     passCount = 0
     currentRound_URL = []
@@ -129,6 +129,11 @@ while status:
             urlParsed.append(every)
 
     print('The new urlParsed is ', urlParsed, ' with length ', len(urlParsed))
+    totalRound += 1
+    if totalRound > 20:
+        print('Finished')
+        break
+    
     randomePause(passCount)
     # wait for 10 to 20 mins
 
