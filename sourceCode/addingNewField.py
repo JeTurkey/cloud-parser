@@ -11,7 +11,6 @@ count = 0
 dic = {}
 for log in gc.find().sort("date", -1):
     if '医疗' in log['title']:
-        pprint.pprint(log)
         count += 1
         if log['date'] not in dic.keys():
             dic[log['date']] = 1
@@ -21,3 +20,4 @@ for log in gc.find().sort("date", -1):
 
 print(count)
 print(dic)
+
