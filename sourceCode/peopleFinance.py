@@ -43,7 +43,7 @@ def parsingContent(link, rizi, huanjing):
     content = ''
 
     try:
-        title = soup.find('div', {'class': 'clearfix w1000_320 text_title'}).find('h1').text
+        title = s.find('div', {'class': 'clearfix w1000_320 text_title'}).find('h1').text
     except:
         print('title extraction error')
 
@@ -55,7 +55,7 @@ def parsingContent(link, rizi, huanjing):
         print('date and source extraction error')
 
     try:
-        contentList = soup.find('div', {'id': 'rwb_zw'}).findAll('p')
+        contentList = s.find('div', {'id': 'rwb_zw'}).findAll('p')
         for p in contentList:
             content += p
     except:
@@ -63,7 +63,7 @@ def parsingContent(link, rizi, huanjing):
 
     rst = title + ' | ' + source + ' | ' + date + ' | ' + content + ' | ' + link
     output(rst, rizi, huanjing)
-    minorRandomPause
+    minorRandomPause()
 
     
 
