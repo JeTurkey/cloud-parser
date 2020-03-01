@@ -61,7 +61,7 @@ def parsingContent(link, rizi, huanjing):
     except:
         print('content Extraction error')
 
-    rst = title + ' | ' + source + ' | ' + date + ' | ' + content + ' | ' + link
+    rst = title + ' | ' + source + ' | ' + date + ' | ' + content + ' | ' + link + '\n'
     output(rst, rizi, huanjing)
     minorRandomPause()
 
@@ -115,6 +115,8 @@ while status:
         for item in minorList:
             minorHead = item.find('h5').text
             minorHeadURL = item.find('a').get('href')
+            if 'http' not in minorHeadURL:
+                minorHeadURL = 'http://finance.people.com.cn/' + minorHeadURL
             print('News title ', minorHead, ' with href ', minorHeadURL)
             currentRound_URL.append(minorHeadURL)
 
