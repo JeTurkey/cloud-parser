@@ -122,10 +122,11 @@ def main():
 
         print('This round the result has ', len(results), ' items')
         for key in results:
-            if mycol.find({}, {'urlLink': key}).count() > 0:
+            if mycol.count_documents({"urlLink": key}) > 0:
                 pass
             else:
                 new_insert = {'urlLink': key}
+                print('New Insert has been made ', new_insert)
                 mycol.insert_one(new_insert)
         
         randomePause()
