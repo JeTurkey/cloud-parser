@@ -22,8 +22,8 @@ def output(str, date, sysEnv):
 
 def randomePause():
 
-    randomTime = random.randint(900, 1200)
-    
+    # randomTime = random.randint(6000, 1200)
+    randomTime = 6000
         
     print('About to rest ', randomTime, ' s')
     time.sleep(randomTime)
@@ -123,6 +123,7 @@ def main():
         print('This round the result has ', len(results), ' items')
         for key in results:
             if mycol.count_documents({"urlLink": key}) > 0:
+                print('key existed')
                 pass
             else:
                 new_insert = {'urlLink': key}
