@@ -132,5 +132,8 @@ def main():
         # wait for 10 to 20 mins
 
 
+if __name__ == "__main__":
+    main()
+
 
 
