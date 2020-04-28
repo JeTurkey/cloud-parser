@@ -120,12 +120,12 @@ def main():
                 print('News title ', minorHead, ' with href ', minorHeadURL)
                 results[str(minorHeadURL)] = minorHead
 
-
-        for key, value in results.items():
+        print('This round the result has ', len(results), ' items')
+        for key in results:
             if mycol.find({}, {'urlLink': key}).count() > 0:
                 pass
             else:
-                new_insert = {'urlLink': key, 'title': value}
+                new_insert = {'urlLink': key}
                 mycol.insert_one(new_insert)
         
         randomePause()
