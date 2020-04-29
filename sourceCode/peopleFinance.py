@@ -33,13 +33,12 @@ def minorRandomPause():
     print('About to rest ', randomTime, ' s')
     time.sleep(randomTime)
 
-def parsingContent(link, rizi, huanjing):
+def parsingContent(link):
     page = requests.get(link)
     s = BeautifulSoup(page.content, features="html.parser")
 
     title = ''
-    source = ''
-    date = ''
+
     content = ''
 
     try:
@@ -48,22 +47,19 @@ def parsingContent(link, rizi, huanjing):
         print('title extraction error')
 
     try:
-        temp_text = s.find('div', {'class': 'box01'}).find('div', {'class': 'fl'}).text.replace('\xa0', ' ')
-        date = temp_text[:temp_text.index(' ')].replace('\n', '')
-        source = temp_text[temp_text.index(' '):].replace(' ', '').replace('\n', '')
-    except:
-        print('date and source extraction error')
-
-    try:
         contentList = s.find('div', {'id': 'rwb_zw'}).findAll('p')
         for p in contentList:
-            content += str(p).replace('\n', '')
+            content += p.text.replace('\n', '').replace('\t', '')
     except:
         print('content Extraction error')
 
-    rst = title + ' | ' + source + ' | ' + date + ' | ' + content + ' | ' + link + '\n'
-    output(rst, rizi, huanjing)
-    minorRandomPause()
+    timeFormat = str(time.localtime().tm_year) + '-' + str(time.localtime().tm_mon) + '-' + str(time.localtime().tm_mday) + '-' + str(time.localtime().tm_hour)
+
+    rst = {'urlLink': link, 'title': title, 'source': '人民日报', 'content': content, 'dateAdded': timeFormat}
+    
+    return rst
+    
+    
 
     
 
@@ -121,16 +117,17 @@ def main():
                 results[str(minorHeadURL)] = minorHead
 
         print('This round the result has ', len(results), ' items')
+        
         for key in results:
             if mycol.count_documents({"urlLink": key}) > 0:
-                print('key existed')
+                print(key, ' key existed')
+                minorRandomPause()
                 pass
             else:
-                new_insert = {'urlLink': key}
-                print('New Insert has been made ', new_insert)
-                mycol.insert_one(new_insert)
-        
-        randomePause()
+                mycol.insert_one(parsingContent(key))
+                minorRandomPause()
+
+
         # wait for 10 to 20 mins
 
 
