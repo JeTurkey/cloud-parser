@@ -50,7 +50,7 @@ def parsingContent(link):
     try:
         contentList = s.find('div', {'class': 'wrap c nav'}).find('div', {'class': 'navp c'}).findAll('p')
         for p in contentList:
-            content += str(p).replace('\n', '').replace('\t', '')
+            content += p.text.replace('\n', '').replace('\t', '')
     except:
         print('content Extraction error')
 
