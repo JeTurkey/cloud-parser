@@ -33,37 +33,32 @@ def minorRandomPause():
     print('About to rest ', randomTime, ' s')
     time.sleep(randomTime)
 
-def parsingContent(link, rizi, huanjing):
+def parsingContent(link):
     page = requests.get(link)
     s = BeautifulSoup(page.content, features="html.parser")
+    print('getting ', link)
 
     title = ''
-    source = ''
-    date = ''
+
     content = ''
 
     try:
-        title = s.find('div', {'class': 'clearfix w1000_320 text_title'}).find('h1').text.replace('\n', '')
+        title = s.find('h1', {'class': 'toph1'}).text.replace('\n', '')
     except:
         print('title extraction error')
 
     try:
-        temp_text = s.find('div', {'class': 'box01'}).find('div', {'class': 'fl'}).text.replace('\xa0', ' ')
-        date = temp_text[:temp_text.index(' ')].replace('\n', '')
-        source = temp_text[temp_text.index(' '):].replace(' ', '').replace('\n', '')
-    except:
-        print('date and source extraction error')
-
-    try:
-        contentList = s.find('div', {'id': 'rwb_zw'}).findAll('p')
+        contentList = s.find('div', {'class': 'wrap c nav'}).find('div', {'class': 'navp c'}).findAll('p')
         for p in contentList:
-            content += str(p).replace('\n', '')
+            content += str(p).replace('\n', '').replace('\t', '')
     except:
         print('content Extraction error')
 
-    rst = title + ' | ' + source + ' | ' + date + ' | ' + content + ' | ' + link + '\n'
-    output(rst, rizi, huanjing)
-    minorRandomPause()
+    timeFormat = str(time.localtime().tm_year) + '-' + str(time.localtime().tm_mon) + '-' + str(time.localtime().tm_mday) + '-' + str(time.localtime().tm_hour)
+
+    rst = {'urlLink': link, 'title': title, 'source': '中国财经', 'content': content, 'dateAdded': timeFormat}
+    
+    return rst
 
     
 
@@ -104,17 +99,18 @@ def main():
             if 'finance' in link.get('href'):
                 results.append(link.get('href'))
 
-        for link in results:
-            if mycol.count_documents({"urlLink": link}) > 0:
-                print('key existed')
+
+
+        print('This round the result has ', len(results), ' items')
+        
+        for key in results:
+            if mycol.count_documents({"urlLink": key}) > 0:
+                print(key, ' key existed')
+                minorRandomPause()
                 pass
             else:
-                new_insert = {'urlLink': link}
-                print('New Insert has been made ', new_insert)
-                mycol.insert_one(new_insert)
-
-        randomePause()
-        # wait for 10 to 20 mins
+                mycol.insert_one(parsingContent(key))
+                minorRandomPause()
 
 
 if __name__ == "__main__":
