@@ -84,7 +84,7 @@ def main():
         # 获取这一页所有title 
         
         # 头版靠右
-        topRightLinks = soup.find('div', {'class': 'yaowen'}).findAll('a')
+        topRightLinks = soup.find('div', {'class': 'yaowen'}).findAll('a')[1:]
         for link in topRightLinks:
             if '//' in link.get('href'):
                 results.append(link.get('href').replace('//', 'https://'))
