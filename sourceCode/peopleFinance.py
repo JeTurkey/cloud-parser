@@ -49,7 +49,7 @@ def parsingContent(link):
     try:
         contentList = s.find('div', {'id': 'rwb_zw'}).findAll('p')
         for p in contentList:
-            content += p
+            content += str(p)
     except:
         print('content Extraction error')
 

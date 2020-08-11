@@ -50,7 +50,7 @@ def parsingContent(link):
     try:
         contentList = s.find('div', {'id': 'Main_Content_Val'}).findAll('p')
         for p in contentList:
-            content += p
+            content += str(p)
     except:
         print('content Extraction error')
 
