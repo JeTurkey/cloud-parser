@@ -33,6 +33,11 @@ def minorRandomPause():
     print('About to rest ', randomTime, ' s')
     time.sleep(randomTime)
 
+def majorRandomPause():
+    randomTime = random.randint(1800, 3600)
+    print('About to enter major sleep ', randomTime, ' s')
+    time.sleep(randomTime)
+
 # ===================  这边每个版本都需要改  Start ==========================
 
 def parsingContent(link):
@@ -113,10 +118,12 @@ def main():
                 new_results.append(key)
                 print(key, ' New Key Added')
 
-        
-        for key in new_results:
-            mycol.insert_one(parsingContent(key))
-            minorRandomPause()
+        if len(new_results) == 0:
+            majorRandomPause()
+        else:
+            for key in new_results:
+                mycol.insert_one(parsingContent(key))
+                minorRandomPause()
 
 
 if __name__ == "__main__":

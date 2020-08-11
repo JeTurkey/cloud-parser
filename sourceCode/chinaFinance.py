@@ -33,6 +33,11 @@ def minorRandomPause():
     print('About to rest ', randomTime, ' s')
     time.sleep(randomTime)
 
+def majorRandomPause():
+    randomTime = random.randint(1800, 3600)
+    print('About to enter major sleep ', randomTime, ' s')
+    time.sleep(randomTime)
+
 def parsingContent(link):
     page = requests.get(link)
     s = BeautifulSoup(page.content, features="html.parser")
@@ -113,9 +118,12 @@ def main():
                 print(key, ' New Key Added')
 
         
-        for key in new_results:
-            mycol.insert_one(parsingContent(key))
-            minorRandomPause()
+        if len(new_results) == 0:
+            majorRandomPause()
+        else:
+            for key in new_results:
+                mycol.insert_one(parsingContent(key))
+                minorRandomPause()
 
 
 if __name__ == "__main__":
