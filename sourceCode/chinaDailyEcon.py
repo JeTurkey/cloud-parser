@@ -52,7 +52,7 @@ def parsingContent(link):
     try:
         contentList = s.find('div', {'id': 'Content'}).findAll('p')
         for p in contentList:
-            content += p.text.replace('\n', '').replace('\t', '')
+            content += p
     except:
         print('content Extraction error')
 
@@ -104,14 +104,19 @@ def main():
 
         print('This round the result has ', len(results), ' items')
         
+        new_results = []
+
         for key in results:
             if mycol.count_documents({"urlLink": key}) > 0:
                 print(key, ' key existed')
-                minorRandomPause()
-                pass
             else:
-                mycol.insert_one(parsingContent(key))
-                minorRandomPause()
+                new_results.append(key)
+                print(key, ' New Key Added')
+
+        
+        for key in new_results:
+            mycol.insert_one(parsingContent(key))
+            minorRandomPause()
 
 
 if __name__ == "__main__":
