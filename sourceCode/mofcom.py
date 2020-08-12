@@ -98,7 +98,7 @@ def main():
                 if 'http' in item.find('a').get('href'):
                     results.append(item.find('a').get('href'))
                 else:
-                    results.append('http://www.mofcom.gov.cn' + tmp.find('a').get('href'))
+                    results.append('http://www.mofcom.gov.cn' + item.find('a').get('href'))
 
         # # 要闻
 
