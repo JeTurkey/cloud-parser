@@ -43,13 +43,13 @@ def parsingContent(link):
     try:
         contentList = s.find('div', {'class': 'zsy_comain'}).findAll('p')
         for p in contentList:
-            content += str(p)
+            content += str(p).replace('\r', '').replace('\n', '')
     except:
         print('content Extraction error')
 
+    dateFormat = str(time.localtime().tm_year) + '-' + str(time.localtime().tm_mon) + '-' + str(time.localtime().tm_mday)
     timeFormat = str(time.localtime().tm_year) + '-' + str(time.localtime().tm_mon) + '-' + str(time.localtime().tm_mday) + '-' + str(time.localtime().tm_hour)
-
-    rst = {'urlLink': link, 'title': title, 'source': '国务院国有资产监督管理委员会', 'content': content, 'dateAdded': timeFormat}
+    rst = {'urlLink': link, 'title': title, 'source': '国务院国有资产监督管理委员会', 'content': content, 'dateAdded': dateFormat, 'timeAdded': timeFormat}
     
     return rst
 

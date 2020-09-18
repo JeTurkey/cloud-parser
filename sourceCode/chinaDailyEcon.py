@@ -57,13 +57,13 @@ def parsingContent(link):
     try:
         contentList = s.find('div', {'id': 'Content'}).findAll('p')
         for p in contentList:
-            content += str(p)
+            content += str(p).replace('\r', '').replace('\n', '')
     except:
         print('content Extraction error')
 
+    dateFormat = str(time.localtime().tm_year) + '-' + str(time.localtime().tm_mon) + '-' + str(time.localtime().tm_mday)
     timeFormat = str(time.localtime().tm_year) + '-' + str(time.localtime().tm_mon) + '-' + str(time.localtime().tm_mday) + '-' + str(time.localtime().tm_hour)
-
-    rst = {'urlLink': link, 'title': title, 'source': '中国日报经济', 'content': content, 'dateAdded': timeFormat}
+    rst = {'urlLink': link, 'title': title, 'source': '中国日报经济', 'content': content, 'dateAdded': dateFormat, 'timeAdded': timeFormat}
     
     return rst
 

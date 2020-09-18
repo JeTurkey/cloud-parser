@@ -47,20 +47,20 @@ def parsingContent(link):
     content = ''
 
     try:
-        title = s.find('div', {'class': 'clearfix w1000_320 text_title'}).find('h1').text.replace('\n', '')
+        title = s.find('div', {'class': 'clearfix w1000_320 text_title'}).find('h1').text.replace('\n', '').replace('\r', '')
     except:
         print('title extraction error')
 
     try:
         contentList = s.find('div', {'id': 'rwb_zw'}).findAll('p')
         for p in contentList:
-            content += str(p)
+            content += str(p).replace('\r', '').replace('\n', '')
     except:
         print('content Extraction error')
 
+    dateFormat = str(time.localtime().tm_year) + '-' + str(time.localtime().tm_mon) + '-' + str(time.localtime().tm_mday)
     timeFormat = str(time.localtime().tm_year) + '-' + str(time.localtime().tm_mon) + '-' + str(time.localtime().tm_mday) + '-' + str(time.localtime().tm_hour)
-
-    rst = {'urlLink': link, 'title': title, 'source': '人民日报', 'content': content, 'dateAdded': timeFormat}
+    rst = {'urlLink': link, 'title': title, 'source': '人民日报', 'content': content, 'dateAdded': dateFormat, 'timeAdded': timeFormat}
     
     return rst
     
@@ -98,7 +98,7 @@ def main():
         # 新闻盒子组
         newsBoxList = soup.findAll('div', {'class': 'news_box'})
         for item in newsBoxList:
-            sectionHead = item.find('h4').text.replace('\n', '')
+            sectionHead = item.find('h4').text.replace('\n', '').replace('\r', '')
             sectionHeadURL = 'http://finance.people.com.cn/' + item.find('a').get('href')
             results[str(sectionHeadURL)] = sectionHead
             # 找到子目录 news_box
