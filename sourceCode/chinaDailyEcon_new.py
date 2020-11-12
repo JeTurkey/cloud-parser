@@ -17,37 +17,6 @@ def minorRandomPause():
     print()
     time.sleep(randomTime)
 
-def parsingContent(link):
-    page = requests.get(link)
-    s = BeautifulSoup(page.content, features = 'html.parser')
-
-    print('Now parsing', link)
-    print()
-    
-    title = ''
-    content = ''
-
-    try: # parsing title
-        title = s.find('div', {'id': 'the_content'}).find('h1').text.replace('\n', '').replace('\r', '')
-    except:
-        print('Title extraction error')
-        print()
-
-    try:
-        contentList = s.find('div', {'id': 'Main_Content_Val'}).findAll('p')
-        for p in contentList:
-            content += str(p).replace('\r', '').replace('\n', '')
-    except:
-        print('Content extraction error')
-        print()
-    t = time.localtime()
-    news_date = str(t.tm_year) + '-' + str(t.tm_mon) + '-' + str(t.tm_mday) + '-' + str(t.tm_hour)
-
-    rst = {'news_link': link.strip(), 'news_title': title.strip(), 'news_source': '财新网',
-           'news_content': content.strip(), 'news_date': news_date}
-
-    return rst
-
 def connectDB():
     mydb = mysql.connector.connect(host='rm-bp11g1acc24v9f69t1o.mysql.rds.aliyuncs.com',
                                 user='rayshi',
@@ -59,6 +28,38 @@ def connectDB():
     print('DB is connected')
     print()
     return mydb
+
+def parsingContent(link):
+    r = requests.get(link)
+    s = BeautifulSoup(r.content, features = "html.parser")
+    
+    print('Now parsing', link)
+    print()
+
+    title = ''
+    content = ''
+
+    try:
+        title = s.find('h1', {'class': 'dabiaoti'}).text.replace('\n', '').replace('\r', '')
+    except:
+        print('Title extraction error')
+        print()
+
+    try:
+        contentList = s.find('div', {'id': 'Content'}).findAll('p')
+        for p in contentList:
+            content += str(p).replace('\r', '').replace('\n', '')
+    except:
+        print('Content extraction error')
+        print()
+
+    t = time.localtime()
+    news_date = str(t.tm_year) + '-' + str(t.tm_mon) + '-' + str(t.tm_mday) + '-' + str(t.tm_hour)
+
+    rst = {'news_link': link.strip(), 'news_title': title.strip(), 'news_source': '财新网',
+           'news_content': content.strip(), 'news_date': news_date}
+
+    return rst
 
 def main():
     print('Program initiating ... ...')
@@ -73,21 +74,35 @@ def main():
 
     while status:
         try:
-            r = requests.get('http://www.caixin.com/')
-            soup = BeautifulSoup(r.content, features = 'html.parser')
+            r = requests.get('http://caijing.chinadaily.com.cn/') # URL 地址
+            soup = BeautifulSoup(r.content, features="html.parser")
             result = [] # 储存结果
+
+            # 获取这一页所有title 
             
-            # 主页面
-            main_list = soup.find('div', {'class': 'news_list'}).findAll('dl')
+            # 头版靠右
+            topRightLinks = soup.find('div', {'class': 'yaowen'}).findAll('a')[1:]
+            for link in topRightLinks:
+                if '//' in link.get('href'):
+                    result.append(link.get('href').replace('//', 'https://'))
 
-            for item in main_list:
-                result.append(item.find('dd').find('p').find('a').get('href'))
+            # 跨国公司
 
-            print('This round has ', len(result), ' items')
+            left_liebiao_1 = soup.find('div', {'class': 'left-liebiao'}).findAll('div', {'class': 'busBox1'})
+            for link in left_liebiao_1:
+                result.append(link.find('a').get('href').replace('//', 'https://'))
+
+            # 产业与公司板块
+
+            left_liebiao_2 = soup.findAll('div', {'class': 'left-liebiao'})[1].findAll('div', {'class': 'busBox1'})
+            for link in left_liebiao_2:
+                result.append(link.find('a').get('href').replace('//', 'https://'))
+
+
+            print('This round the result has ', len(result), ' items')
             print()
 
-            
-            # 与数据库比照是否有重复
+            # ======== 与数据库对比是否有重复 =========
             new_result = []
             for link in result:
                 try:
@@ -109,6 +124,8 @@ def main():
 
             print('This round has ', len(new_result), ' new items')
             print()
+
+            # ======== 与数据库对比是否有重复 END =========
 
             if len(new_result) == 0:
                 majorRandomPause()
@@ -132,8 +149,8 @@ def main():
                         print()
                         status = False
                         break
-
-
+        
+        
         except:
             print('An error happend, minor stop')
             print()
@@ -146,4 +163,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
