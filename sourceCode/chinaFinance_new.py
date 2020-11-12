@@ -132,7 +132,7 @@ def main():
             if len(new_results) == 0:
                 majorRandomPause()
             else:
-                for link in new_result:
+                for link in new_results:
                     try:
                         mycursor.execute('SELECT news_id FROM ttd.news ORDER BY news_id DESC LIMIT 1;')
                         print('Execute Successfully')
