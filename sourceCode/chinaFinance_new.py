@@ -106,7 +106,7 @@ def main():
 
             # ======== 与数据库对比是否有重复 =========
             new_results = []
-            for link in result:
+            for link in results:
                 try:
                     sql = 'SELECT news_id FROM ttd.news WHERE news_link=\'' + str(link).strip() + '\';'
                     mycursor.execute(sql)
