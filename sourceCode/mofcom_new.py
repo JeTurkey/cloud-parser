@@ -18,11 +18,12 @@ def minorRandomPause():
     time.sleep(randomTime)
 
 def connectDB():
-    mydb = mysql.connector.connect(host='rm-bp11g1acc24v9f69t1o.mysql.rds.aliyuncs.com',
-                                user='rayshi',
-                                password='Rayshi1994!',
-                                database='ttd',
-                                auth_plugin='mysql_native_password')
+    # mydb = mysql.connector.connect(host='rm-bp11g1acc24v9f69t1o.mysql.rds.aliyuncs.com',
+    #                             user='rayshi',
+    #                             password='Rayshi1994!',
+    #                             database='ttd',
+    #                             auth_plugin='mysql_native_password')
+    mydb = mysql.connector.connect(host='localhost', user='root', password='Rayshi1994!', database='ttd')
 
     
     print('DB is connected')
@@ -82,7 +83,8 @@ def main():
             # 获取这一页所有title 
             
             # 头版靠左
-            links = soup.find('section', {'class': 'w1200 m-con-01'}).findAll('section')[:-2]
+            print('爬取头版')
+            links = soup.find('section', {'class': 'listCon iListCon f-mt30'}).findAll('ul')
 
             for link in links:
                 tmp = link.findAll('li')
