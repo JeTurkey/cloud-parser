@@ -15,6 +15,7 @@ def minorRandomPause():
     randomTime = random.randint(300, 600)
     print('About to enter minor sleep', randomTime, ' s')
     print()
+    time.sleep(randomTime)
 
 def parsingContent(link):
     page = requests.get(link)
