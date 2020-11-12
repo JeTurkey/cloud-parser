@@ -125,6 +125,7 @@ def main():
                         mydb.commit()
                         print(mycursor.rowcount, "record inserted.")
                         print()
+                        minorRandomPause()
                     except:
                         print('Getting info error')
                         print()
