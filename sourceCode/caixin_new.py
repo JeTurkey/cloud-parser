@@ -48,10 +48,11 @@ def parsingContent(link):
     return rst
 
 def connectDB():
-    mydb = mysql.connector.connect(host = 'localhost',
-                                   user = 'root', 
-                                   password = 'Rayshi1994!',
-                                   database = 'ttd')
+    mydb = mysql.connector.connect(host='rm-bp11g1acc24v9f69t1o.mysql.rds.aliyuncs.com',
+                                user='rayshi',
+                                password='Rayshi1994!',
+                                database='ttd',
+                                auth_plugin='mysql_native_password')
 
     
     print('DB is connected')
