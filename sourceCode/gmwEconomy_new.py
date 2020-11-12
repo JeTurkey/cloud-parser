@@ -31,32 +31,32 @@ def connectDB():
 
 def parsingContent(link):
     r = requests.get(link)
-    s = BeautifulSoup(r.content, features = "html.parser")
+    s = BeautifulSoup(r.content, features = 'html.parser')
     
-    print('Now parsing', link)
+    print('Getting ', link)
     print()
 
     title = ''
     content = ''
 
     try:
-        title = s.find('h1', {'class': 'dabiaoti'}).text.replace('\n', '').replace('\r', '')
+        title = s.find('h1', {'class': 'u-title'}).text.replace('\r\n', '').strip()
     except:
-        print('Title extraction error')
+        print('title extraction error')
         print()
 
     try:
-        contentList = s.find('div', {'id': 'Content'}).findAll('p')
+        contentList = s.find('div', {'class': 'm-l-main'}).find('div', {'id': 'article_inbox'}).findAll('p')
         for p in contentList:
             content += str(p).replace('\r', '').replace('\n', '')
     except:
-        print('Content extraction error')
+        print('content Extraction error')
         print()
 
     t = time.localtime()
     news_date = str(t.tm_year) + '-' + str(t.tm_mon) + '-' + str(t.tm_mday) + '-' + str(t.tm_hour)
 
-    rst = {'news_link': link.strip(), 'news_title': title.strip(), 'news_source': '中国日报经济',
+    rst = {'news_link': link.strip(), 'news_title': title.strip(), 'news_source': '光明网财经',
            'news_content': content.strip(), 'news_date': news_date}
 
     return rst
@@ -74,37 +74,43 @@ def main():
 
     while status:
         try:
-            r = requests.get('http://caijing.chinadaily.com.cn/') # URL 地址
+            r = requests.get('https://economy.gmw.cn/') # URL 地址
             soup = BeautifulSoup(r.content, features="html.parser")
-            result = [] # 储存结果
+            results = [] # 储存结果
 
-            # 获取这一页所有title 
-            
-            # 头版靠右
-            topRightLinks = soup.find('div', {'class': 'yaowen'}).findAll('a')[1:]
-            for link in topRightLinks:
-                if '//' in link.get('href'):
-                    result.append(link.get('href').replace('//', 'https://'))
+            # 头版靠左
+            topLeftLinks = soup.find('div', {'class': 'part1'}).find('ul').findAll('li')
+            for link in topLeftLinks:
+                if 'http' not in link.find('a').get('href'):
+                    results.append('https://economy.gmw.cn/' + link.find('a').get('href'))
+                else:
+                    results.append(link.find('a').get('href'))
 
-            # 跨国公司
+            # 要闻
 
-            left_liebiao_1 = soup.find('div', {'class': 'left-liebiao'}).findAll('div', {'class': 'busBox1'})
-            for link in left_liebiao_1:
-                result.append(link.find('a').get('href').replace('//', 'https://'))
+            yaowen = soup.find('div', {'class': 'part2 inner1000 clearfix'}).find('ul', {'class': 'arc_list_t1 clearfix'}).findAll('li')
+            for link in yaowen:
+                if 'http' not in link.find('a').get('href'):
+                    results.append('https://economy.gmw.cn/' + link.find('a').get('href'))
+                else:
+                    results.append(link.find('a').get('href'))
 
-            # 产业与公司板块
+            # 产经板块
 
-            left_liebiao_2 = soup.findAll('div', {'class': 'left-liebiao'})[1].findAll('div', {'class': 'busBox1'})
-            for link in left_liebiao_2:
-                result.append(link.find('a').get('href').replace('//', 'https://'))
+            chanjing = soup.find('ul', {'class': 'arc_pic_list'}).findAll('li')
+            for link in chanjing:
+                if 'http' not in link.find('a').get('href'):
+                    results.append('https://economy.gmw.cn/' + link.find('a').get('href'))
+                else:
+                    results.append(link.find('a').get('href'))
 
 
-            print('This round the result has ', len(result), ' items')
+            print('This round the result has ', len(results), ' items')
             print()
 
             # ======== 与数据库对比是否有重复 =========
             new_result = []
-            for link in result:
+            for link in results:
                 try:
                     sql = 'SELECT news_id FROM ttd.news WHERE news_link=\'' + str(link).strip() + '\';'
                     mycursor.execute(sql)
@@ -126,6 +132,7 @@ def main():
             print()
 
             # ======== 与数据库对比是否有重复 END =========
+
             # ======== 插入新数据 =========
             if len(new_result) == 0:
                 majorRandomPause()
@@ -151,6 +158,7 @@ def main():
                         break
 
                 # ======== 插入新数据 END =========
+
         except:
             print('An error happend, minor stop')
             print()
