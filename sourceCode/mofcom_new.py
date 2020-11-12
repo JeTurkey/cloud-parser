@@ -41,13 +41,13 @@ def parsingContent(link):
     content = ''
 
     try:
-        title = s.find('h1', {'id': 'artitle'}).text.strip()
+        title = s.find('div', {'class': 'art-title'}).text.strip()
     except:
         print('Title extraction error')
         print()
 
     try:
-        contentList = s.find('div', {'id': 'zoom', 'class': 'artCon'}).findAll('p')
+        contentList = s.find('div', {'class': 'art-con art-con-bottonmLine'}).findAll('p')
         for p in contentList:
             content += str(p).replace('\r', '').replace('\n', '')
     except:
