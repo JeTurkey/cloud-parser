@@ -128,7 +128,6 @@ def main():
                 except:
                     print('Adding new item error')
                     print()
-                    status = False
                     break
 
             print('This round has ', len(new_result), ' new items')
@@ -157,7 +156,6 @@ def main():
                     except:
                         print('Getting info error')
                         print()
-                        status = False
                         break
 
                 # ======== 插入新数据 END =========
