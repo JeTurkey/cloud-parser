@@ -65,14 +65,11 @@ def main():
     print()
 
     status = True
-    mydb = connectDB()
-    mycursor = mydb.cursor()
-    mycursor.execute('SELECT * FROM ttd.news LIMIT 10;')
-    print(len(mycursor.fetchall()), ' Connection works')
-    print()
+
 
     while status:
         try:
+
             r = requests.get('http://www.caixin.com/')
             soup = BeautifulSoup(r.content, features = 'html.parser')
             result = [] # 储存结果
@@ -95,12 +92,8 @@ def main():
                     mycursor.execute(sql)
                     news_link = mycursor.fetchall()
                     if len(news_link) < 1:
-                        print('New link found', link)
-                        print()
                         new_result.append(link)
-                    else:
-                        print(link, ' Existed')
-                        print()
+
                 except:
                     print('Adding new item error')
                     print()
@@ -111,6 +104,9 @@ def main():
             print()
 
             if len(new_result) == 0:
+                print('No new item found, restart DB connection')
+                print()
+                mydb.close()
                 majorRandomPause()
             else:
                 for link in new_result:
@@ -132,6 +128,10 @@ def main():
                         print()
                         status = False
                         break
+
+            print('This round has end, close connection')
+            print()
+            mydb.close()
 
 
         except:
