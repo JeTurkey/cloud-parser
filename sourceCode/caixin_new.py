@@ -69,7 +69,13 @@ def main():
 
     while status:
         try:
-
+            # ============= 测试Connection =============
+            mydb = connectDB()
+            mycursor = mydb.cursor()
+            mycursor.execute('SELECT * FROM ttd.news LIMIT 10;')
+            print(len(mycursor.fetchall()), ' Connection works')
+            print()
+            # ============= 测试Connection END =============
             r = requests.get('http://www.caixin.com/')
             soup = BeautifulSoup(r.content, features = 'html.parser')
             result = [] # 储存结果

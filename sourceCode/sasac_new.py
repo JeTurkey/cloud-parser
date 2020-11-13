@@ -67,14 +67,16 @@ def main():
     print()
 
     status = True
-    mydb = connectDB()
-    mycursor = mydb.cursor()
-    mycursor.execute('SELECT * FROM ttd.news LIMIT 10;')
-    print(len(mycursor.fetchall()), ' Connection works')
-    print()
 
     while status:
         try:
+            # ============= 测试Connection =============
+            mydb = connectDB()
+            mycursor = mydb.cursor()
+            mycursor.execute('SELECT * FROM ttd.news LIMIT 10;')
+            print(len(mycursor.fetchall()), ' Connection works')
+            print()
+            # ============= 测试Connection END =============
             r = requests.get('http://www.sasac.gov.cn/n2588025/index.html') # URL 地址
             soup = BeautifulSoup(r.content, features="html.parser")
             result = []
@@ -139,6 +141,9 @@ def main():
                         break
 
                 # ======== 插入新数据 END =========
+            print('This round has end, close connection')
+            print()
+            mydb.close()
         except:
             print('An error happend, minor stop')
             print()
