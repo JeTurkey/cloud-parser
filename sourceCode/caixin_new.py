@@ -120,7 +120,7 @@ def main():
                         print('Execute Successfully')
                         news_id_count = mycursor.fetchall()[0][0] + 1
                         print(news_id_count)
-                        sql = 'INSERT INTO ttd.news VALUES (%s, %s, %s, %s, %s, %s)'
+                        sql = 'INSERT INTO ttd.news (news_id, news_title, news_source, news_date, news_content, news_link) VALUES (%s, %s, %s, %s, %s, %s)'
                         rst = parsingContent(link)
                         val = (news_id_count, str(rst['news_title']), str(rst['news_source']), str(rst['news_date']), str(rst['news_content']), str(rst['news_link']))
                         mycursor.execute(sql, val)

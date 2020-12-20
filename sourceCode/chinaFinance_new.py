@@ -129,7 +129,7 @@ def main():
             print()
 
             # ======== 与数据库对比是否有重复 END =========
-                        # ======== 插入新数据 =========
+            # ======== 插入新数据 =========
             if len(new_results) == 0:
                 majorRandomPause()
             else:

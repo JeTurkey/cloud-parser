@@ -31,6 +31,7 @@ def connectDB():
 
 def parsingContent(link):
     r = requests.get(link)
+    r.encoding = 'GBK'
     s = BeautifulSoup(r.content, features='html.parser')
 
     print('Now parsing ', link)
@@ -77,6 +78,7 @@ def main():
             print()
             # ============= 测试Connection END =============
             r = requests.get('http://finance.people.com.cn/')
+            r.encoding = 'GBK'
             soup = BeautifulSoup(r.content, features="html.parser")
             result = []
 
