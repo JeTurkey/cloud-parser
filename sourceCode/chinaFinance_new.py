@@ -5,6 +5,7 @@ import mysql.connector
 import random
 import time
 import module_news_govTag
+import module_news_comTag
 
 def majorRandomPause():
     randomTime = random.randint(1800, 3600)
