@@ -1,5 +1,5 @@
 def tagGov(cursor, title, content):
-    cursor.execute('SELECT * FROM ttd.company')
+    cursor.execute('SELECT * FROM ttd.gov_dept')
     gov_dept = cursor.fetchall()
 
     # Turn government department into dict

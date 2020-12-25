@@ -4,6 +4,8 @@ import sys
 import mysql.connector
 import random
 import time
+import module_news_govTag
+import module_news_comTag
 
 def majorRandomPause():
     randomTime = random.randint(1800, 3600)
@@ -148,9 +150,13 @@ def main():
                         print('Execute Successfully')
                         news_id_count = mycursor.fetchall()[0][0] + 1
                         print(news_id_count)
-                        sql = 'INSERT INTO ttd.news (news_id, news_title, news_source, news_date, news_content, news_link) VALUES (%s, %s, %s, %s, %s, %s)'
+                        sql = 'INSERT INTO ttd.news (news_id, news_title, news_source, news_date, news_content, news_link, gov_tag, com_tag) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)'
                         rst = parsingContent(link)
-                        val = (news_id_count, str(rst['news_title']), str(rst['news_source']), str(rst['news_date']), str(rst['news_content']), str(rst['news_link']))
+                        # ======= 政府标签 - 新增 12.15 ==========
+                        gov_tag = module_news_govTag.tagGov(mycursor, str(rst['news_title']), str(rst['news_content']))
+                        com_tag = module_news_comTag.tagCom(mycursor, str(rst['news_title']), str(rst['news_content']))
+                        # ======= 政府标签 - 新增 12.15 END ==========
+                        val = (news_id_count, str(rst['news_title']), str(rst['news_source']), str(rst['news_date']), str(rst['news_content']), str(rst['news_link']), gov_tag, com_tag)
                         mycursor.execute(sql, val)
                         mydb.commit()
                         print(mycursor.rowcount, "record inserted.")
