@@ -17,4 +17,4 @@ def tagGov(cursor, title, content):
                 gov_tag += nick + ','
 
 
-    return gov_tag
+    return gov_tag[:-1]
