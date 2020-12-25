@@ -4,6 +4,7 @@ import sys
 import mysql.connector
 import random
 import time
+import modeule_news_govTag
 
 def majorRandomPause():
     randomTime = random.randint(1800, 3600)
@@ -120,9 +121,10 @@ def main():
                         print('Execute Successfully')
                         news_id_count = mycursor.fetchall()[0][0] + 1
                         print(news_id_count)
-                        sql = 'INSERT INTO ttd.news (news_id, news_title, news_source, news_date, news_content, news_link) VALUES (%s, %s, %s, %s, %s, %s)'
+                        gov_tag = modeule_news_govTag.tagGov(mycursor, str(rst['news_title']), str(rst['news_content']))
+                        sql = 'INSERT INTO ttd.news (news_id, news_title, news_source, news_date, news_content, news_link, gov_tag) VALUES (%s, %s, %s, %s, %s, %s, %s)'
                         rst = parsingContent(link)
-                        val = (news_id_count, str(rst['news_title']), str(rst['news_source']), str(rst['news_date']), str(rst['news_content']), str(rst['news_link']))
+                        val = (news_id_count, str(rst['news_title']), str(rst['news_source']), str(rst['news_date']), str(rst['news_content']), str(rst['news_link']), gov_tag)
                         mycursor.execute(sql, val)
                         mydb.commit()
                         print(mycursor.rowcount, "record inserted.")
