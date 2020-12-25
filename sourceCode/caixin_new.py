@@ -122,6 +122,7 @@ def main():
                         news_id_count = mycursor.fetchall()[0][0] + 1
                         print(news_id_count)
                         gov_tag = modeule_news_govTag.tagGov(mycursor, str(rst['news_title']), str(rst['news_content']))
+                        print('政府标签', gov_tag)
                         sql = 'INSERT INTO ttd.news (news_id, news_title, news_source, news_date, news_content, news_link, gov_tag) VALUES (%s, %s, %s, %s, %s, %s, %s)'
                         rst = parsingContent(link)
                         val = (news_id_count, str(rst['news_title']), str(rst['news_source']), str(rst['news_date']), str(rst['news_content']), str(rst['news_link']), gov_tag)
