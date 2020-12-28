@@ -15,6 +15,7 @@ def tagCom(cursor, title, content):
         for name in dept_to_nick[nick]:
             if name in title or name in content:
                 com_tag += nick + ','
+                break
 
 
     return com_tag[:-1]

@@ -15,6 +15,7 @@ def tagGov(cursor, title, content):
         for name in dept_to_nick[nick]:
             if name in title or name in content:
                 gov_tag += nick + ','
+                break
 
 
     return gov_tag[:-1]
