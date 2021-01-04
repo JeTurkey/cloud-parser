@@ -43,13 +43,13 @@ def parsingContent(link):
     content = ''
 
     try:
-        title = s.find('div', {'class': 'clearfix w1000_320 text_title'}).find('h1').text.replace('\n', '').replace('\r', '')
+        title = s.find('div', {'class': 'layout rm_txt cf'}).find('h1').text.replace('\n', '').replace('\r', '')
     except:
         print('title extraction error')
         print()
 
     try:
-        contentList = s.find('div', {'id': 'rwb_zw'}).findAll('p')
+        contentList = s.find('div', {'class': 'rm_txt_con cf'}).findAll('p')
         for p in contentList:
             content += str(p).replace('\r', '').replace('\n', '')
     except:
