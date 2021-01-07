@@ -5,6 +5,7 @@ import mysql.connector
 import random
 import time
 import module_news_govTag
+import module_news_comTag
 
 def majorRandomPause():
     randomTime = random.randint(1800, 3600)
@@ -55,7 +56,7 @@ def parsingContent(link):
         print()
 
     t = time.localtime()
-    news_date = str(t.tm_year) + '-' + str(t.tm_mon) + '-' + str(t.tm_mday) + '-' + str(t.tm_hour)
+    news_date = str(t.tm_year) + '-' + str(t.tm_mon) + '-' + str(t.tm_mday) + '-' + str(t.tm_hour) + '-' + str(t.tm_min)
 
     rst = {'news_link': link.strip(), 'news_title': title.strip(), 'news_source': '中国日报经济',
            'news_content': content.strip(), 'news_date': news_date}
@@ -139,12 +140,13 @@ def main():
                         print('Execute Successfully')
                         news_id_count = mycursor.fetchall()[0][0] + 1
                         print(news_id_count)
-                        sql = 'INSERT INTO ttd.news (news_id, news_title, news_source, news_date, news_content, news_link, gov_tag) VALUES (%s, %s, %s, %s, %s, %s, %s)'
+                        sql = 'INSERT INTO ttd.news (news_id, news_title, news_source, news_date, news_content, news_link, gov_tag, com_tag) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)'
                         rst = parsingContent(link)
                         # ======= 政府标签 - 新增 12.15 ==========
                         gov_tag = module_news_govTag.tagGov(mycursor, str(rst['news_title']), str(rst['news_content']))
+                        com_tag = module_news_comTag.tagCom(mycursor, str(rst['news_title']), str(rst['news_content']))
                         # ======= 政府标签 - 新增 12.15 END ==========
-                        val = (news_id_count, str(rst['news_title']), str(rst['news_source']), str(rst['news_date']), str(rst['news_content']), str(rst['news_link']), gov_tag)
+                        val = (news_id_count, str(rst['news_title']), str(rst['news_source']), str(rst['news_date']), str(rst['news_content']), str(rst['news_link']), gov_tag, com_tag)
                         mycursor.execute(sql, val)
                         mydb.commit()
                         print(mycursor.rowcount, "record inserted.")
