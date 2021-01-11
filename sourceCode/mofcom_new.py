@@ -51,7 +51,10 @@ def parsingContent(link):
     try:
         contentList = s.find('div', {'class': 'art-con art-con-bottonmLine'}).findAll('p')
         for p in contentList:
-            content += str(p).replace('\r', '').replace('\n', '')
+            if p.find('img') is None:
+                content += str(p).replace('\r', '').replace('\n', '')
+            else:
+                pass
     except:
         print('Content Extraction error')
         print()
