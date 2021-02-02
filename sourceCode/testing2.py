@@ -1,4 +1,4 @@
-import modeule_news_govTag
+
 import mysql.connector
 
 def connectDB():
@@ -16,8 +16,10 @@ def connectDB():
 
 mydb = connectDB()
 mycursor = mydb.cursor()
-print(modeule_news_govTag.tagGov(mycursor, '阿里巴巴哟哦i我饥饿佛i我', '蚂蚁金服jslkdjflksjfoii'))
-print('DB close')
+sql = 'SELECT news_id, news_title FROM ttd.news WHERE news_title=\''+str('lksdjfoiwe') + '\';'
+mycursor.execute(sql)
+rst = mycursor.fetchall()
+print('返回长度',len(rst))
 mydb.close()
 
 # mydb = testing.connectDB()
