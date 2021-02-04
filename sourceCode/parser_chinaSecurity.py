@@ -81,7 +81,7 @@ def main():
     # ============== 主页面爬取 ==============
     main_page_item = {}
 
-    top_part = soup.soup.find('div', {'class': 'box410 ch_focus space_l1'}).findAll('li')
+    top_part = soup.find('div', {'class': 'box410 ch_focus space_l1'}).findAll('li')
     for i in top_part:
         if 'http' not in i.find('a').get('href'):
             main_page_item[i.text] = i.find('a').get('href')
