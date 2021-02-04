@@ -8,7 +8,6 @@ import module_news_comTag
 import module_news_govTag
 import module_news_topicTag
 
-
 def minorRandomPause():
     randomTime = random.randint(300, 600)
     print('About to enter minor sleep', randomTime, ' s')
@@ -28,7 +27,7 @@ def connectDB():
     return mydb
 
 def parsingContent(link):
-    fullLink = 'http://fund.eastmoney.com/a/' + link
+    fullLink = 'http://www.cs.com.cn' + link
     p = requests.get(fullLink)
     s = BeautifulSoup(p.content, features = 'html.parser')
 
@@ -38,16 +37,17 @@ def parsingContent(link):
     title = ''
     content = ''
 
-    try: # 爬取标题
+    # 爬取标题
+    try:
         title = s.find('h1').text
     except:
         print('标题获取错误')
         print()
 
     try:
-        contentList = s.findAll('div', {'id': 'ContentBody'})[0].findAll('p')
+        contentList = s.find('div', {'class': 'box_l1 space_r1'}).find('section').findAll()
         for p in contentList:
-            if len(p) > 5 and p.find('img') is None:
+            if len(p) >5 and p.find('img') is None:
                 content += '<p>' + p.text + '</p>'
             else:
                 pass
@@ -64,7 +64,7 @@ def parsingContent(link):
     return rst
 
 def main():
-    print('天天基金网新闻')
+    print('中国证券网')
     print()
 
     # ============= 测试Connection =============
@@ -75,17 +75,21 @@ def main():
     print()
     # ============= 测试Connection END =============
 
-    r = requests.get('http://fund.eastmoney.com/a/cjjyw.html')
+    r = requests.get('http://www.cs.com.cn/')
     soup = BeautifulSoup(r.content, features = 'html.parser')
 
     # ============== 主页面爬取 ==============
-    main_list = soup.find('div', {'class': 'mainCont'}).findAll('ul') # 此处包含页面4个ul
-    main_page_item = {} # 用于储存全部该页面的数据
-    
-    for i in main_list:
-        currentUl = i.findAll('a')
-        for a in currentUl:
-            main_page_item[a.text] = a.get('href')
+    main_page_item = {}
+
+    top_part = soup.soup.find('div', {'class': 'box410 ch_focus space_l1'}).findAll('li')
+    for i in top_part:
+        if 'http' not in i.find('a').get('href'):
+            main_page_item[i.text] = i.find('a').get('href')
+
+    mid_part = soup.find('div', {'class': 'box_l1'}).findAll('li')
+    for i in mid_part:
+        if 'http' not in i.find('a').get('href'):
+            main_page_item[i.text] = i.find('a').get('href')
 
     print('共', len(main_page_item), '个结果')
     print()
@@ -124,7 +128,7 @@ def main():
             print('最新ID为', newest_id)
             print()
             sql = 'INSERT INTO ttd.news (news_id, news_title, news_source, news_date, news_content, news_link, gov_tag, com_tag) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)'
-            rst = parsingContent(link)
+            rst = parsingContent(link[1:])
             # ======= 标签 - 新增 12.15 ==========
             gov_tag = module_news_govTag.tagGov(mycursor, str(rst['news_title']), str(rst['news_content']))
             com_tag = module_news_comTag.tagCom(mycursor, str(rst['news_title']), str(rst['news_content']))
@@ -139,7 +143,5 @@ def main():
         print('本轮结束, 断开链接')
         mydb.close()
     # ============== 爬取主代码 END =================
-    
 
-if __name__ == "__main__":
-    main()
+    
