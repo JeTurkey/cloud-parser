@@ -5,6 +5,7 @@ import parser_caixin
 import parser_chinaSecurity
 import task_comScoreCalculator as task_csc
 import task_govScoreCalculator as task_gsc
+import task_request_hs300 as task_hs300
 
 # ============== 日常计算任务 =================
 schedule.every().day.at("23:55").do(task_gsc.main) # 政府计算器
@@ -18,6 +19,12 @@ schedule.every().hour.do(parser_caixin.main) # 财新网
 schedule.every().hour.do(parser_chinaSecurity.main) # 中国证券报
 
 # ============== 爬虫任务管理 END =================
+
+# ============== 日常获取数据任务 =================
+schedule.every().day.at("22:00").do(task_hs300.main) # 获取沪深300数据
+
+
+# ============== 日常获取数据任务 END =================
 
 
 while True:
