@@ -13,9 +13,9 @@ schedule.every().day.at("23:55").do(task_csc.main) # 公司计算器
 # ============== 日常计算任务 END =================
 
 # ============== 爬虫任务管理 =================
-schedule.every().hour.do(parser_eastFund.main)
-schedule.every().hour.do(parser_caixin.main)
-schedule.every().hour.do(parser_chinaSecurity.main)
+schedule.every().hour.do(parser_eastFund.main) # 东方财富基金资讯
+schedule.every().hour.do(parser_caixin.main) # 财新网
+schedule.every().hour.do(parser_chinaSecurity.main) # 中国证券报
 
 # ============== 爬虫任务管理 END =================
 
