@@ -25,12 +25,16 @@ def main():
     high = hs300.iloc[0]['high']
     close = hs300.iloc[0]['close']
     low = hs300.iloc[0]['low']
-    sql = 'INSERT INTO ttd_test.hs300 (trade_date, hs300_open, hs300_high, hs300_close, hs300_low) VALUES (%s, %s, %s, %s, %s)'
-    val = (date, opened, high, close, low)
-    mycursor.execute(sql, val)
-    
-    mydb.commit()
-    print(mycursor.rowcount, "record inserted.")
+    try:
+        sql = 'INSERT INTO ttd_test.hs300 (trade_date, hs300_open, hs300_high, hs300_close, hs300_low) VALUES (%s, %s, %s, %s, %s)'
+        val = (date, opened, high, close, low)
+        mycursor.execute(sql, val)
+        
+        mydb.commit()
+        print(mycursor.rowcount, "record inserted.")
+    except Exception as e:
+        print(e)
+        pass
 
     print('DB Closed')
     print()
