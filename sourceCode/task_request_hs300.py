@@ -14,7 +14,6 @@ def main():
 
     mycursor = mydb.cursor()
 
-    # 获取历史沪深300 
     hs300 = ts.get_hist_data('hs300')
     hs300['trade_date'] = hs300.index
     for i in range(len(hs300)):
