@@ -29,7 +29,7 @@ def main():
     mydb.commit()
     print(mycursor.rowcount, "record inserted.")
 
-    print('数据库接口关闭')
+    print('DB Closed')
     print()
     mydb.close()
 
