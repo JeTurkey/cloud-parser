@@ -62,4 +62,12 @@ def sentimentAnalysis():
     hs300_result = mycursor.fetchall()
 
     date = [d[0] for d in hs300_result]
+
+    for d in date[-300:]:
+        year = d.year
+        month = d.month
+        day = d.day
+        mycursor.execute('SELECT * FROM ttd.news WHERE date(news_date)=\'' + str(year) + '-' + str(month) + '-' + str(day) + '\';')
+        t = mycursor.fetchall()
+        print(t)
         

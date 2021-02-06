@@ -10,7 +10,7 @@ import module_news_topicTag
 
 
 def minorRandomPause():
-    randomTime = random.randint(300, 600)
+    randomTime = random.randint(600, 900)
     print('About to enter minor sleep', randomTime, ' s')
     print()
     time.sleep(randomTime)
