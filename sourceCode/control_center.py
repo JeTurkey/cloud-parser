@@ -21,7 +21,11 @@ schedule.every().hour.do(parser_chinaSecurity.main) # 中国证券报
 # ============== 爬虫任务管理 END =================
 
 # ============== 日常获取数据任务 =================
-schedule.every().day.at("22:00").do(task_hs300.main) # 获取沪深300数据
+schedule.every().monday.at("22:00").do(task_hs300.main) # 获取沪深300数据 - 周一
+schedule.every().tuesday.at("22:00").do(task_hs300.main) # 获取沪深300数据 - 周二
+schedule.every().wednesday.at("22:00").do(task_hs300.main) # 获取沪深300数据 - 周三
+schedule.every().thursday.at("22:00").do(task_hs300.main) # 获取沪深300数据 - 周四
+schedule.every().friday.at("22:00").do(task_hs300.main) # 获取沪深300数据 - 周五
 
 
 # ============== 日常获取数据任务 END =================
