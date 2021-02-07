@@ -10,7 +10,7 @@ def log_writer(context):
     sec = str(t.tm_sec)
     fileName = year + '-' + month + '-' + day
 
-    file = open('/home/admin/parserOutput/log' + fileName )
+    file = open('/home/admin/parserOutput/log' + fileName + '.txt', 'a+' )
     specTime = fileName + ' ' + hr + ':' + min + ':' + sec
     file.writelines(specTime + ' : ' + context)
     file.close()
