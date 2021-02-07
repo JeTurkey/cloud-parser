@@ -7,12 +7,12 @@ from bs4 import BeautifulSoup
 import module_news_comTag
 import module_news_govTag
 import module_news_topicTag
+import module_logWriter as lw
 
 
 def minorRandomPause():
     randomTime = random.randint(600, 900)
-    print('About to enter minor sleep', randomTime, ' s')
-    print()
+    lw.log_writer('东方财富脚本进入休眠' + str(randomTime) + '秒')
     time.sleep(randomTime)
 
 def connectDB():
@@ -32,8 +32,7 @@ def parsingContent(link):
     p = requests.get(fullLink)
     s = BeautifulSoup(p.content, features = 'html.parser')
 
-    print('Now parsing', link)
-    print()
+    lw.log_writer('东方财富脚本开始爬取' + fullLink)
 
     title = ''
     content = ''
@@ -41,8 +40,7 @@ def parsingContent(link):
     try: # 爬取标题
         title = s.find('h1').text
     except:
-        print('标题获取错误')
-        print()
+        lw.log_writer('东方财富脚本爬取标题错误')
 
     try:
         contentList = s.findAll('div', {'id': 'ContentBody'})[0].findAll('p')
@@ -52,8 +50,7 @@ def parsingContent(link):
             else:
                 pass
     except:
-        print('内容抓取错误')
-        print()
+        lw.log_writer('东方财富脚本爬取内容错误')
 
     t = time.localtime()
     news_date = str(t.tm_year) + '-' + str(t.tm_mon) + '-' + str(t.tm_mday) + '-' + str(t.tm_hour) + '-' + str(t.tm_min)
@@ -103,11 +100,10 @@ def main():
             else:
                 pass
         except:
-            print('添加新的新闻错误')
-            print()
+            lw.log_writer('东方财富脚本首页添加新闻错误')
             pass
 
-    print('本轮新的新闻有', len(confirmed_new), '条')
+    lw.log_writer('东方财富脚本本轮新增新闻有' + str(len(confirmed_new)) + '条')
     # ============== 数据库对照 END =================
 
     # ============== 爬取主代码 =================
@@ -117,26 +113,19 @@ def main():
         mydb.close()
     else:
         for link in confirmed_new:
-            mycursor.execute('SELECT news_id FROM ttd.news ORDER BY news_id DESC LIMIT 1;')
-            print('获取最新ID成功')
-            print()
-            newest_id = int(mycursor.fetchall()[0][0]) + 1
-            print('最新ID为', newest_id)
-            print()
-            sql = 'INSERT INTO ttd.news (news_id, news_title, news_source, news_date, news_content, news_link, gov_tag, com_tag) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)'
+            sql = 'INSERT INTO ttd.news (news_title, news_source, news_date, news_content, news_link, gov_tag, com_tag) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)'
             rst = parsingContent(link)
             # ======= 标签 - 新增 12.15 ==========
             gov_tag = module_news_govTag.tagGov(mycursor, str(rst['news_title']), str(rst['news_content']))
             com_tag = module_news_comTag.tagCom(mycursor, str(rst['news_title']), str(rst['news_content']))
             # ======= 标签 - 新增 12.15 END ==========
-            val = (newest_id, str(rst['news_title']), str(rst['news_source']), str(rst['news_date']), str(rst['news_content']), str(rst['news_link']), gov_tag, com_tag)
+            val = (str(rst['news_title']), str(rst['news_source']), str(rst['news_date']), str(rst['news_content']), str(rst['news_link']), gov_tag, com_tag)
             mycursor.execute(sql, val)
             mydb.commit()
-            print(mycursor.rowcount, 'row inserted')
-            print()
+            lw.log_writer('东方财富脚本新增' + str(mycursor.rowcount) + '条')
             minorRandomPause()
         
-        print('本轮结束, 断开链接')
+        lw.log_writer('东方财富脚本轮结束')
         mydb.close()
     # ============== 爬取主代码 END =================
     
