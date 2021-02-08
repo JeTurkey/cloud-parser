@@ -46,7 +46,7 @@ def parsingContent(link):
 
     try:
         contentList = s.find('section').findAll()
-        print(contentList)
+        
         for p in contentList:
             if len(p) > 5 and p.find('img') is None:
                 content += '<p>' + p.text + '</p>'
@@ -61,7 +61,7 @@ def parsingContent(link):
 
     rst = {'news_link': fullLink.strip(), 'news_title': title.strip(), 'news_source': '中国证券报',
            'news_content': content.strip(), 'news_date': news_date}
-
+    print(rst)
     return rst
 
 def main():
