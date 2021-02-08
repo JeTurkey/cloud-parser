@@ -49,6 +49,7 @@ def parsingContent(link):
         
         for p in contentList:
             if len(p) > 5 and p.find('img') is None:
+                print(p)
                 content += '<p>' + p.text + '</p>'
             else:
                 pass
@@ -61,7 +62,7 @@ def parsingContent(link):
 
     rst = {'news_link': fullLink.strip(), 'news_title': title.strip(), 'news_source': '中国证券报',
            'news_content': content.strip(), 'news_date': news_date}
-    print(rst)
+    
     return rst
 
 def main():
