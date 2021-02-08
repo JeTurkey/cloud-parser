@@ -45,9 +45,9 @@ def parsingContent(link):
         print()
 
     try:
-        contentList = s.find('div', {'class': 'box_l1 space_r1'}).find('section').findAll()
+        contentList = s.find('section').findAll()
         for p in contentList:
-            if len(p) >5 and p.find('img') is None:
+            if len(p) > 5 and p.find('img') is None:
                 content += '<p>' + p.text + '</p>'
             else:
                 pass
