@@ -45,7 +45,7 @@ def parsingContent(link):
     try:
         contentList = s.findAll('div', {'id': 'ContentBody'})[0].findAll('p')
         for p in contentList:
-            if len(p) > 5 and p.find('img') is None:
+            if len(p.text) > 5 and p.find('img') is None:
                 print(content)
                 content += '<p>' + p.text + '</p>'
             else:

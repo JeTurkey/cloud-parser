@@ -49,7 +49,6 @@ def parsingContent(link):
         
         for p in contentList:
             if len(p.text) > 5 and p.find('img') is None:
-                print(p)
                 content += '<p>' + p.text + '</p>'
             else:
                 pass
