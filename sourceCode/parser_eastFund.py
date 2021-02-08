@@ -114,7 +114,7 @@ def main():
         mydb.close()
     else:
         for link in confirmed_new:
-            sql = 'INSERT INTO ttd.news (news_title, news_source, news_date, news_content, news_link, gov_tag, com_tag) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)'
+            sql = 'INSERT INTO ttd.news (news_title, news_source, news_date, news_content, news_link, gov_tag, com_tag) VALUES (%s, %s, %s, %s, %s, %s, %s)'
             rst = parsingContent(link)
             # ======= 标签 - 新增 12.15 ==========
             gov_tag = module_news_govTag.tagGov(mycursor, str(rst['news_title']), str(rst['news_content']))
