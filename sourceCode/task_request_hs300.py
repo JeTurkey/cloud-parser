@@ -26,7 +26,7 @@ def main():
     close = hs300.iloc[0]['close']
     low = hs300.iloc[0]['low']
     try:
-        sql = 'INSERT INTO ttd_test.hs300 (trade_date, hs300_open, hs300_high, hs300_close, hs300_low) VALUES (%s, %s, %s, %s, %s)'
+        sql = 'INSERT IGNORE INTO ttd_test.hs300 (trade_date, hs300_open, hs300_high, hs300_close, hs300_low) VALUES (%s, %s, %s, %s, %s)'
         val = (date, opened, high, close, low)
         mycursor.execute(sql, val)
         
