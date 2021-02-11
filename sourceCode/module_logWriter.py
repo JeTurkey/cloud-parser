@@ -12,5 +12,5 @@ def log_writer(context):
 
     file = open('/home/admin/parserOutput/log' + fileName + '.txt', 'a+' )
     specTime = fileName + ' ' + hr + ':' + min + ':' + sec
-    file.writelines(specTime + ' : ' + context)
+    file.writelines(specTime + ' : ' + context +'\n')
     file.close()
