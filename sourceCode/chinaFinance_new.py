@@ -90,21 +90,21 @@ def main():
             # 头版靠左
             headLinks = soup.find('div', {'class': 'hot c'}).find('div', {'fl hot-lf'}).findAll('a')
             for link in headLinks:
-                if 'http' in link.get('href'):
+                if 'http' in link.get('href') and 'photo' not in link.get('href'):
                     results.append(link.get('href'))
 
             # 金融和资本板块
 
             f_and_c = soup.find('div', {'class': 'mt20'}).find('div', {'class': 'fl f-list'}).findAll('a')
             for link in f_and_c:
-                if len(link.get('href')) > 26:
+                if len(link.get('href')) > 26 and 'photo' not in link.get('href'):
                     results.append(link.get('href'))
 
             # 产业与公司板块
 
             i_and_c = soup.find('div', {'class': 'indus mt20'}).find('div', {'class': 'fl f-list pt10'}).findAll('a')
             for link in i_and_c:
-                if 'finance' in link.get('href'):
+                if 'finance' in link.get('href') and 'photo' not in link.get('href'):
                     results.append(link.get('href'))
 
             print('This round the result has ', len(results), ' items')
