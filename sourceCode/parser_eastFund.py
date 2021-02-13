@@ -46,7 +46,7 @@ def parsingContent(link):
         contentList = s.findAll('div', {'id': 'ContentBody'})[0].findAll('p')
         for p in contentList:
             if len(p.text) > 5 and p.find('img') is None:
-                content += '<p>' + p.text + '</p>'
+                content += '<p>' + p.text.replace('\n', '') + '</p>'
             else:
                 pass
     except:

@@ -39,7 +39,7 @@ def parsingContent(link):
 
     # 爬取标题
     try:
-        title = s.find('h1').text
+        title = s.find('h1').text.replace('\n', '')
     except:
         print('标题获取错误')
         print()
@@ -49,7 +49,7 @@ def parsingContent(link):
         
         for p in contentList:
             if len(p.text) > 5 and p.find('img') is None:
-                content += '<p>' + p.text + '</p>'
+                content += '<p>' + p.text.replace('\n', '') + '</p>'
             else:
                 pass
     except:
