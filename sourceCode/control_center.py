@@ -12,11 +12,11 @@ import task_sentimentIndexCalculator as task_sic
 schedule.every().day.at("23:55").do(task_gsc.main) # 政府计算器
 schedule.every().day.at("23:55").do(task_csc.main) # 公司计算器
 
-schedule.every().monday.at("22:30").do(task_sic) # 计算当天分数 - 周一
-schedule.every().tuesday.at("22:30").do(task_sic) # 计算当天分数 - 周二
-schedule.every().wednesday.at("22:30").do(task_sic) # 计算当天分数 - 周三
-schedule.every().thursday.at("22:30").do(task_sic) # 计算当天分数 - 周四
-schedule.every().friday.at("22:30").do(task_sic) # 计算当天分数 - 周五
+schedule.every().monday.at("22:30").do(task_sic.main) # 计算当天分数 - 周一
+schedule.every().tuesday.at("22:30").do(task_sic.main) # 计算当天分数 - 周二
+schedule.every().wednesday.at("22:30").do(task_sic.main) # 计算当天分数 - 周三
+schedule.every().thursday.at("22:30").do(task_sic.main) # 计算当天分数 - 周四
+schedule.every().friday.at("22:30").do(task_sic.main) # 计算当天分数 - 周五
 # ============== 日常计算任务 END =================
 
 # ============== 爬虫任务管理 =================
