@@ -1,5 +1,6 @@
 import mysql.connector
 import time
+import datetime
 
 # Parameter and Weight
 
@@ -31,7 +32,7 @@ def initialization():
     
     # negative sentiment vocabs
     negativeSentimentVocabs = {}
-    negativeSentimentVocabsFile = open('/home/admin/sentimentAnalysisTool/referenceList/negativeSentimentVocabs.txt', 'r')
+    negativeSentimentVocabsFile = open('/home/admin/sentimentAnalysisTool/referenceList/negativeSentimentVocabs_v2.txt', 'r')
     for line in negativeSentimentVocabsFile.readlines():
         vocab, weight = line.split(': ')
         negativeSentimentVocabs[str(vocab.strip())] = float(weight.strip())
@@ -51,23 +52,57 @@ def connectDB():
     print()
     return mydb
 
-def sentimentAnalysis():
+def analysis(data):
+    currentScore = 0
+    institutionWeight, sourceWeight, positive_words, negative_words = initialization()
+    itr = 0
+    for i in data:
+        sentences = i[4].replace('\u3000', '').split('。')
+        for sentence in sentences:
+            for sentiment in positive_words.keys():
+                if sentiment in sentence:
+                    currentScore += (positive_words[sentiment])
+                    itr += 1
+                    break
+            for sentiment in negative_words.keys():
+                if sentiment in sentence:
+                    currentScore += (negative_words[sentiment])
+                    itr += 1
+                    break
+    if itr == 0:
+        itr = 1
+
+    modified_score = currentScore / (itr/(len(sentences)))
+    return modified_score
+
+def main():
     mydb = connectDB()
     mycursor = mydb.cursor()
-    # get all news
-    mycursor.execute('SELECT * from ttd.news')
-    news_result = mycursor.fetchall()
 
-    mycursor.execute('SELECT * from ttd_test.hs300')
-    hs300_result = mycursor.fetchall()
+    mycursor.execute('SELECT * FROM ttd_test.hs300 ORDER BY trade_date DESC LIMIT 2')
+    t = mycursor.fetchall() # Get latest two result
+    prev_score = t[-1][-1] # previous score
 
-    date = [d[0] for d in hs300_result]
+    year = time.localtime().tm_year # year
+    month = time.localtime().tm_mon # month
+    day = time.localtime().tm_mday # day
+    d = str(time.localtime().tm_year) + '-' + str(time.localtime().tm_mon) + '-' + str(time.localtime().tm_mday)
+    # get all today's news
+    mycursor.execute('SELECT * FROM ttd.news WHERE date(news_date)=\'' + str(year) + '-' + str(month) + '-' + str(day) + '\';')
+    t = mycursor.fetchall()
+    if len(t) > 0:
+        s = analysis(t)
+        prev_score += s
+    else:
+        prev_score += 0
 
-    for d in date[-300:]:
-        year = d.year
-        month = d.month
-        day = d.day
-        mycursor.execute('SELECT * FROM ttd.news WHERE date(news_date)=\'' + str(year) + '-' + str(month) + '-' + str(day) + '\';')
-        t = mycursor.fetchall()
-        print(t)
-        
+    sql = 'UPDATE ttd_test.hs300 SET sentiment_score = %s WHERE trade_date = date(%s)'
+    val = (prev_score, d)
+    mycursor.execute(sql, val)
+
+    mydb.commit()
+
+    print('score added')
+
+if __name__ == "__main__":
+    main()

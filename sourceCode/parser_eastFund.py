@@ -38,7 +38,7 @@ def parsingContent(link):
     content = ''
 
     try: # 爬取标题
-        title = s.find('h1').text
+        title = s.find('h1').text.replace('\n', '')
     except:
         lw.log_writer('东方财富脚本爬取标题错误')
 
