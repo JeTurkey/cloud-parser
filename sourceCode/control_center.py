@@ -40,4 +40,4 @@ schedule.every().friday.at("22:00").do(task_hs300.main) # 获取沪深300数据 
 
 while True:
     schedule.run_pending()
-    time.sleep(1800)
+    time.sleep(900)
