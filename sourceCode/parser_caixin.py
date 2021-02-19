@@ -6,6 +6,7 @@ import random
 import time
 import module_news_govTag
 import module_news_comTag
+import module_logWriter as lw
 
 def majorRandomPause():
     randomTime = random.randint(1800, 3600)
@@ -23,8 +24,7 @@ def parsingContent(link):
     page = requests.get(link)
     s = BeautifulSoup(page.content, features = 'html.parser')
 
-    print('Now parsing', link)
-    print()
+    lw.log_writer('财新网脚本开始爬取' + link)
     
     title = ''
     content = ''
@@ -32,8 +32,7 @@ def parsingContent(link):
     try: # parsing title
         title = s.find('div', {'id': 'the_content'}).find('h1').text.replace('\n', '').replace('\r', '')
     except:
-        print('Title extraction error')
-        print()
+        lw.log_writer('财新网文章标题获取错误')
 
     try:
         contentList = s.find('div', {'id': 'Main_Content_Val'}).findAll('p')
@@ -43,8 +42,8 @@ def parsingContent(link):
             else:
                 pass
     except:
-        print('Content extraction error')
-        print()
+        lw.log_writer('财新网文章内容获取错误')
+
     t = time.localtime()
     news_date = str(t.tm_year) + '-' + str(t.tm_mon) + '-' + str(t.tm_mday) + '-' + str(t.tm_hour) + '-' + str(t.tm_min)
 
@@ -66,19 +65,18 @@ def connectDB():
     return mydb
 
 def main():
-    print('Program initiating ... ...')
+    print('财新网')
     print()
 
     # ============= 测试Connection =============
     mydb = connectDB()
     mycursor = mydb.cursor()
     mycursor.execute('SELECT * FROM ttd.news LIMIT 10;')
-    print(len(mycursor.fetchall()), ' Connection works')
-    print()
     # ============= 测试Connection END =============
+
     r = requests.get('http://www.caixin.com/')
     soup = BeautifulSoup(r.content, features = 'html.parser')
-    result = [] # 储存结果
+
     main_page_item = {} # 用于储存全部该页面数据
     
     # ============= 主页面爬取 =============
@@ -117,30 +115,23 @@ def main():
     else:
         for link in confirmed_new:
             try:
-                mycursor.execute('SELECT news_id FROM ttd.news ORDER BY news_id DESC LIMIT 1;')
-                print('获取最新ID成功')
-                print()
-                newest_id = mycursor.fetchall()[0][0] + 1
-                print(newest_id)
-                sql = 'INSERT INTO ttd.news (news_id, news_title, news_source, news_date, news_content, news_link, gov_tag, com_tag) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)'
+                sql = 'INSERT INTO ttd.news (news_title, news_source, news_date, news_content, news_link, gov_tag, com_tag) VALUES (%s, %s, %s, %s, %s, %s, %s)'
                 rst = parsingContent(link)
                 # ======= 标签 - 新增 12.15 ==========
                 gov_tag = module_news_govTag.tagGov(mycursor, str(rst['news_title']), str(rst['news_content']))
                 com_tag = module_news_comTag.tagCom(mycursor, str(rst['news_title']), str(rst['news_content']))
                 # ======= 标签 - 新增 12.15 END ==========
-                val = (newest_id, str(rst['news_title']), str(rst['news_source']), str(rst['news_date']), str(rst['news_content']), str(rst['news_link']), gov_tag, com_tag)
+                val = (str(rst['news_title']), str(rst['news_source']), str(rst['news_date']), str(rst['news_content']), str(rst['news_link']), gov_tag, com_tag)
                 mycursor.execute(sql, val)
                 mydb.commit()
-                print(mycursor.rowcount, "record inserted.")
-                print()
+                lw.log_writer('财新网' + str(mycursor.rowcount) + '条')
                 minorRandomPause()
             except:
                 print('Getting info error')
                 print()
                 break
 
-    print('本轮结束, 断开链接')
-    print()
+    lw.log_writer('财新网脚本本轮结束')
     mydb.close()
 
 
