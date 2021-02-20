@@ -28,14 +28,22 @@ def connectDB():
     return mydb
 
 def parsingContent(link):
+    t = time.localtime()
+    news_date = str(t.tm_year) + '-' + str(t.tm_mon) + '-' + str(t.tm_mday) + '-' + str(t.tm_hour) + '-' + str(t.tm_min)
+    title = ''
+    content = ''
+
     fullLink = 'http://fund.eastmoney.com/a/' + link
-    p = requests.get(fullLink)
-    s = BeautifulSoup(p.content, features = 'html.parser')
+    try:
+        p = requests.get(fullLink)
+        s = BeautifulSoup(p.content, features = 'html.parser')
+    except:
+        lw.log_writer('东方财富脚本爬取' + fullLink + '失败')
+        return {'news_link': fullLink.strip(), 'news_title': title.strip(), 'news_source': '东方财富基金资讯', 'news_content': content.strip(), 'news_date': news_date}
 
     lw.log_writer('东方财富脚本开始爬取' + fullLink)
 
-    title = ''
-    content = ''
+
 
     try: # 爬取标题
         title = s.find('h1').text.replace('\n', '')
@@ -52,8 +60,7 @@ def parsingContent(link):
     except:
         lw.log_writer('东方财富脚本爬取内容错误')
 
-    t = time.localtime()
-    news_date = str(t.tm_year) + '-' + str(t.tm_mon) + '-' + str(t.tm_mday) + '-' + str(t.tm_hour) + '-' + str(t.tm_min)
+
 
     rst = {'news_link': fullLink.strip(), 'news_title': title.strip(), 'news_source': '东方财富基金资讯',
            'news_content': content.strip(), 'news_date': news_date}
