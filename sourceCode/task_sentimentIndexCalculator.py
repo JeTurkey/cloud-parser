@@ -83,12 +83,12 @@ def main():
     t = mycursor.fetchall() # Get latest two result
     prev_score = t[-1][-1] # previous score
 
-    year = time.localtime().tm_year # year
-    month = time.localtime().tm_mon # month
-    day = time.localtime().tm_mday # day
-    d = str(time.localtime().tm_year) + '-' + str(time.localtime().tm_mon) + '-' + str(time.localtime().tm_mday)
+    # year = time.localtime().tm_year # year
+    # month = time.localtime().tm_mon # month
+    # day = time.localtime().tm_mday # day
+    d = t[0][0]
     # get all today's news
-    mycursor.execute('SELECT * FROM ttd.news WHERE date(news_date)=\'' + str(year) + '-' + str(month) + '-' + str(day) + '\';')
+    mycursor.execute('SELECT * FROM ttd.news WHERE date(news_date)=\'' + str(d) + '\';')
     t = mycursor.fetchall()
     if len(t) > 0:
         s = analysis(t)
