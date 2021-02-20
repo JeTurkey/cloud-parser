@@ -7,8 +7,8 @@ import task_request_hs300 as task_hs300
 import task_sentimentIndexCalculator as task_sic
 
 # ============== 日常计算任务 =================
-schedule.every().day.at("23:55").do(task_gsc.main) # 政府计算器
-schedule.every().day.at("23:55").do(task_csc.main) # 公司计算器
+schedule.every().day.at("23:30").do(task_gsc.main) # 政府计算器
+schedule.every().day.at("23:30").do(task_csc.main) # 公司计算器
 
 schedule.every().hour.do(task_tagging.tagging) # 在bridge打标签
 
