@@ -47,7 +47,7 @@ def parsingContent(link):
         contentList = s.find('section').findAll()
         
         for p in contentList:
-            if len(p.text) > 5 and p.find('img') is None:
+            if len(p.text) > 5 and p.find('img') is None and 'TRS' not in p.text:
                 content += '<p>' + p.text.replace('\n', '') + '</p>'
             else:
                 pass
