@@ -11,7 +11,7 @@ schedule.every().hour.do(parser_chinaSecurity.main) # 中国证券报
 
 # ============== 爬虫任务管理 END =================
 
-
+print('爬虫控制中心启动')
 while True:
     schedule.run_pending()
     time.sleep(900)
