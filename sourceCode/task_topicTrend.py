@@ -20,9 +20,9 @@ def countingTopic(local_news, tag, record_date, db, cursor):
     for line in tag:
         ind_to_topic[line[1]] = line[0]
         topic_to_nick[line[1]] = line[2].split(",")
-    topic_count = ind_to_topic
+    topic_count = {}
     
-    for i in topic_count: # reset to zero
+    for i in ind_to_topic: # reset to zero
         topic_count[i] = 0
     
     
@@ -37,6 +37,7 @@ def countingTopic(local_news, tag, record_date, db, cursor):
         sql = 'INSERT IGNORE INTO ttd.topic_trend (topic_id, topic_name, topic_count, record_date) VALUES (%s, %s, %s, %s);'
         val = (str(ind_to_topic[i]), str(i), str(topic_count[i]), record_date)
         cursor.execute(sql, val)
+        print(val)
     db.commit()
     return topic_count
 
@@ -47,14 +48,19 @@ def main():
     mycursor.execute('SELECT * FROM ttd.topic;')
     topic_tags = mycursor.fetchall()
 
-    year = time.localtime().tm_year
-    month = time.localtime().tm_mon
-    day = time.localtime().tm_mday
+    # year = time.localtime().tm_year
+    # month = time.localtime().tm_mon
+    # day = time.localtime().tm_mday
+    year = '2021'
+    month = '03'
+    day = '01'
 
     mycursor.execute('SELECT * FROM ttd.news WHERE date(news_date)=\'' + str(year) + '-' + str(month) + '-' + str(day) + '\';')
     daily_news = mycursor.fetchall()
 
-    countingTopic(daily_news, topic_tags, str(year) + '-' + str(month) + '-' + str(day), mydb, mycursor)    
+    countingTopic(daily_news, topic_tags, str(year) + '-' + str(month) + '-' + str(day), mydb, mycursor)   
+    mydb.close()
+    print('Topic trend FINISHED !!!') 
 
 if __name__ == "__main__":
     main()
