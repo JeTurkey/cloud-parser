@@ -120,13 +120,14 @@ def main():
         mydb.close()
     else:
         for link in confirmed_new:
-            sql = 'INSERT INTO ttd.news (news_title, news_source, news_date, news_content, news_link, gov_tag, com_tag) VALUES (%s, %s, %s, %s, %s, %s, %s)'
+            sql = 'INSERT INTO ttd.news (news_title, news_source, news_date, news_content, news_link, gov_tag, com_tag, topic_tag) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)'
             rst = parsingContent(link)
             # ======= 标签 - 新增 12.15 ==========
             gov_tag = module_news_govTag.tagGov(mycursor, str(rst['news_title']), str(rst['news_content']))
             com_tag = module_news_comTag.tagCom(mycursor, str(rst['news_title']), str(rst['news_content']))
+            topic_tag = module_news_topicTag.tagTopic(mycursor, str(rst['news_title']), str(rst['news_content']))
             # ======= 标签 - 新增 12.15 END ==========
-            val = (str(rst['news_title']), str(rst['news_source']), str(rst['news_date']), str(rst['news_content']), str(rst['news_link']), gov_tag, com_tag)
+            val = (str(rst['news_title']), str(rst['news_source']), str(rst['news_date']), str(rst['news_content']), str(rst['news_link']), gov_tag, com_tag, topic_tag)
             mycursor.execute(sql, val)
             mydb.commit()
             lw.log_writer('东方财富脚本新增' + str(mycursor.rowcount) + '条')

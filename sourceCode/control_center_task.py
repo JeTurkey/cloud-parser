@@ -31,6 +31,7 @@ schedule.every().friday.at("22:00").do(task_hs300.main) # 获取沪深300数据 
 
 # ============== 日常获取数据任务 END =================
 
+print('日常任务控制中心启动 !!!')
 while True:
     schedule.run_pending()
     time.sleep(600)
