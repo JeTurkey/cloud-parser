@@ -48,12 +48,12 @@ def main():
     mycursor.execute('SELECT * FROM ttd.topic;')
     topic_tags = mycursor.fetchall()
 
-    # year = time.localtime().tm_year
-    # month = time.localtime().tm_mon
-    # day = time.localtime().tm_mday
-    year = '2021'
-    month = '03'
-    day = '01'
+    year = time.localtime().tm_year
+    month = time.localtime().tm_mon
+    day = time.localtime().tm_mday
+    # year = '2021'
+    # month = '03'
+    # day = '01'
 
     mycursor.execute('SELECT * FROM ttd.news WHERE date(news_date)=\'' + str(year) + '-' + str(month) + '-' + str(day) + '\';')
     daily_news = mycursor.fetchall()
