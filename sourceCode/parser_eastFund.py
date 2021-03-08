@@ -128,8 +128,11 @@ def main():
             topic_tag = module_news_topicTag.tagTopic(mycursor, str(rst['news_title']), str(rst['news_content']))
             # ======= 标签 - 新增 12.15 END ==========
             val = (str(rst['news_title']), str(rst['news_source']), str(rst['news_date']), str(rst['news_content']), str(rst['news_link']), gov_tag, com_tag, topic_tag)
-            mycursor.execute(sql, val)
-            mydb.commit()
+            try:
+                mycursor.execute(sql, val)
+                mydb.commit()
+            except:
+                lw.log_writer('东方财富脚本在添加数据时失败')
             lw.log_writer('东方财富脚本新增' + str(mycursor.rowcount) + '条')
             minorRandomPause()
         
