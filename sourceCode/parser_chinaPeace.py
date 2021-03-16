@@ -82,7 +82,7 @@ def main():
 
     # ============== 主页面爬取 ================
 
-    news_list = soup.find('div', {'class': "w1200 bgfff"}).find('div', {'div': 'list_box_left'}).findAll('li')
+    news_list = soup.find('div', {'class': "w1200 bgfff"}).find('div', {'class': 'list_box_left'}).findAll('li')
     news_list_item = {}
 
     for i in news_list:
