@@ -82,19 +82,19 @@ def main():
 
     top_part = soup.find('div', {'class': 'box410 ch_focus space_l1'}).findAll('li')
     for i in top_part:
-        if 'http' not in i.find('a').get('href'):
-            try:
+        try:
+            if 'http' not in i.find('a').get('href'):
                 main_page_item[i.text] = i.find('a').get('href')
-            except:
-                pass
+        except:
+            pass
 
     mid_part = soup.find('div', {'class': 'box_l1'}).findAll('li')
     for i in mid_part:
-        if 'http' not in i.find('a').get('href'):
-            try:
+        try:
+            if 'http' not in i.find('a').get('href'):
                 main_page_item[i.text] = i.find('a').get('href')
-            except:
-                pass
+        except:
+            pass
 
     print('共', len(main_page_item), '个结果')
     print()

@@ -28,7 +28,7 @@ def connectDB():
 
 def parsingContent(link):
     t = time.localtime()
-    news_date = str(t.tm_year) + '-' + str(t.tm_mon) + '-' + str(t.tm_day) + '-' + str(t.tm_hour) + '-' + str(t.tm_min)
+    news_date = str(t.tm_year) + '-' + str(t.tm_mon) + '-' + str(t.tm_mday) + '-' + str(t.tm_hour) + '-' + str(t.tm_min)
     title = ''
     content = ''
 
