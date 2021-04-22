@@ -92,7 +92,8 @@ def main():
     for i in news_list:
         currentLi = i.findAll('div', {'class': 'dys_middle_result_content_item'})
         for a in currentLi:
-            news_list_item[a.find('a').text] = a.find('a').get('href')
+            # news_list_item[a.find('a').text] = a.find('a').get('href')
+            news_list_item[a.find('a').get('href')] = a.find('a').text
             # news_list_item_belong[a.find('a').get('href')] = a.find('div', {'class': 'dysMiddleResultConItemRelevant clearfix'}).text
 
     print('共', len(news_list_item), '个结果')
@@ -107,7 +108,7 @@ def main():
             mycursor.execute(sql)
             compareResult = mycursor.fetchall()
             if len(compareResult) == 0:
-                confirmed_new.append(news_list_item[a])
+                confirmed_new.append(a)
             else:
                 pass
         except:
