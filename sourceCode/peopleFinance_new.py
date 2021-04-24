@@ -32,7 +32,12 @@ def connectDB():
     return mydb
 
 def parsingContent(link):
-    r = requests.get(link)
+    if 'http' in link:
+        full_link = link
+    else:
+        full_link = 'http://finance.people.com.cn' + link
+    
+    r = requests.get(full_link)
     r.encoding = 'GBK'
     s = BeautifulSoup(r.content, features='html.parser')
 
