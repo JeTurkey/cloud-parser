@@ -85,15 +85,18 @@ def main():
 
     # ============== 主页面爬取 ================
 
-    news_list = soup.find('ul', {'class': 'silder_nav clearfix'})
+    news_list = soup.find('ul', {'class': 'silder_nav clearfix'}).findAll('li')
     news_list_item = {}
     # news_list_item_belong = {}
 
     for i in news_list:
-        currentLi = i.findAll('a')
-        for a in currentLi:
+        # currentLi = i.findAll('a')
+        # for a in currentLi:
             # news_list_item[a.find('a').text] = a.find('a').get('href')
-            news_list_item[a.get('href')] = a.text
+        try:
+            news_list_item[i.find('a').get('href')] = i.find('a').text
+        except:
+            pass
             # news_list_item_belong[a.find('a').get('href')] = a.find('div', {'class': 'dysMiddleResultConItemRelevant clearfix'}).text
 
 
