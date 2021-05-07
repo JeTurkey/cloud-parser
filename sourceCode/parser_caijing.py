@@ -98,7 +98,7 @@ def main():
     news_list = soup.find('div', {'class':'yaowen hongg'}).findAll('li')
 
     for i in news_list:
-        news_list_item[i.find('a').text] = i.find('a').get('href')
+        news_list_item[i.find('a').get('href')] = i.find('a').text.replace('\n', '')
 
 
     print('共', len(news_list_item), '个结果')
