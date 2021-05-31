@@ -48,7 +48,7 @@ def parsingContent(link):
         lw.log_writer('中央政法委员会')
 
     try:
-        contentList = s.findAll('div', {'class': 'content_main'}).find('div', {'id': 'js_content'}).findAll('p')
+        contentList = s.find('div', {'class': 'content_main'}).findAll('p')
         for p in contentList:
             if len(p.text) > 5 and p.find('img') is None:
                 content += '<p>' + p.text.replace('\n', '') + '</p>'

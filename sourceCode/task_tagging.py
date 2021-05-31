@@ -69,7 +69,7 @@ def tagCom():
         ind_to_dept[line[1]] = line[0]
         dept_to_nick[line[1]] = line[2].split(",")
 
-    # building gov_news talbe
+    # building gov_news tabel
     for line in result:
         for nick in dept_to_nick:
             for name in dept_to_nick[nick]:
