@@ -61,7 +61,7 @@ def parsingContent(link):
     t = time.localtime()
     news_date = str(t.tm_year) + '-' + str(t.tm_mon) + '-' + str(t.tm_mday) + '-' + str(t.tm_hour) + '-' + str(t.tm_min)
 
-    rst = {'news_link': link.strip(), 'news_title': title.strip(), 'news_source': '光明网财经',
+    rst = {'news_link': link.strip(), 'news_title': title.strip(), 'news_source': '4',
            'news_content': content.strip(), 'news_date': news_date}
 
     return rst

@@ -38,7 +38,7 @@ def parsingContent(link):
         s = BeautifulSoup(p.content, features = 'html.parser')
     except:
         lw.log_writer('中央政法委员会' + fullLink + '失败')
-        return {'news_link': fullLink.strip(), 'news_title': title.strip(), 'news_source': '中央政法委', 'news_content': content.strip(), 'news_date': news_date}
+        return {'news_link': fullLink.strip(), 'news_title': title.strip(), 'news_source': '10', 'news_content': content.strip(), 'news_date': news_date}
 
     lw.log_writer('中央政法委员会开始爬取' + fullLink)
 
