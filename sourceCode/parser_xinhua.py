@@ -59,7 +59,7 @@ def parsingContent(link, title):
     except:
         lw.log_writer('新华网财经获取内容错误')
 
-    rst = {'news_link': fullLink.strip(), 'news_title': title.strip(), 'news_source': '新华网财经',
+    rst = {'news_link': fullLink.strip(), 'news_title': title.strip(), 'news_source': '11',
            'news_content': content.strip(), 'news_date': news_date}
 
     return rst
