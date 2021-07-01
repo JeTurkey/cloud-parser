@@ -99,7 +99,7 @@ def main():
     print('Start')
 
     for i in company_id:
-        mycursor.execute('SELECT * FROM gov_news gn, news n, gov_dept gd WHERE gn.news_id = n.news_id AND gn.gov_dept_id = gd.gov_dept_id AND gd.gov_dept_id = ' + str(i[0]) + ' AND date_sub(curdate(), INTERVAL 30 DAY) <= date(n.news_date);')
+        mycursor.execute('SELECT * FROM gov_news gn, news n, gov_dept gd WHERE gn.news_id = n.news_id AND gn.gov_dept_id = gd.gov_dept_id AND gd.gov_dept_id = \'' + str(i[0]) + '\' AND date_sub(curdate(), INTERVAL 30 DAY) <= date(n.news_date);')
 
         result = mycursor.fetchall()
         
