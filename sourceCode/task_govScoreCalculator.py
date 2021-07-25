@@ -42,7 +42,7 @@ def initialization():
 def analysisPosAndNeg(data):
     institutionWeight, sourceWeight, positive_words, negative_words = initialization()
     if len(data) > 0:
-        ele = data[0][-1]
+        ele = data[0][-9]
         hotWords = ele.split(',') # Enter here
     else:
         print('Pos', 0, 'Neg', 0, 'Neutral', 0, 'Pos_Rate', 0, 'Neg_Rate', 0)
